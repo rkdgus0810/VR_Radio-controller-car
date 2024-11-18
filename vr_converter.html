@@ -1,0 +1,18 @@
+<html>
+  <head>
+    <link href="https://vjs.zencdn.net/7.6.6/video-js.css" rel="stylesheet" />
+    <script src="https://vjs.zencdn.net/7.6.6/video.js"></script>
+    <script src="https://videojs-vr.netlify.com/dist/videojs-vr.js"></script>
+  </head>
+  <body>
+    <video width="640" height="480" id="my-video" class="video-js" controls playsinline>
+      <source src="작품_영상.mp4" type="video/mp4" />
+    </video>
+    <script>
+      var player = videojs('my-video');
+      player.mediainfo = player2.mediainfo || {};
+      player.mediainfo.projection = '360';
+      player.vr({projection: 'AUTO', debug: true, forceCardboard: false});
+    </script>
+  </body>
+</html>
