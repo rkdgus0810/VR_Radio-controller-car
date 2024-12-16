@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VR-RC: controller</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: black;
+      height: 100vh; /* 화면 전체를 채우도록 설정 */
+    }
+    .vr-container {
+      display: flex;
+      width: 100vw; /* 전체 화면 너비 */
+      height: 100vh; /* 전체 화면 높이 */
+    }
+    .vr-video {
+      width: 50%; /* 화면을 두 부분으로 나누어 */
+      height: 100%; /* 전체 높이 */
+      object-fit: cover; /* 영상이 화면을 꽉 채우도록 설정 */
+    }
+  </style>
+</head>
+<body>
+  <div class="vr-container">
+    <!-- 좌측 화면 -->
+    <img class="vr-video" id="leftVideo" src="http://192.168.246.23:3000/video" alt="Video Stream">
+    <!-- 우측 화면 -->
+    <img class="vr-video" id="rightVideo" src="http://192.168.246.23:3000/video" alt="Video Stream">
+  </div>
+
+  <script>
+    // 좌우 영상 동기화
+    const leftVideo = document.getElementById('leftVideo');
+    const rightVideo = document.getElementById('rightVideo');
+
+    // 우측 영상 동기화 함수
+    function syncVideos() {
+      rightVideo.currentTime = leftVideo.currentTime; // 좌측 영상을 기준으로 우측 시간 설정
+      rightVideo.play();
+    }
+
+    // 좌측 영상이 재생될 때 동기화
+    leftVideo.addEventListener('play', syncVideos);
+
+    // 좌우 영상 간 재생 시간 차이를 조정 (시간 동기화)
+    leftVideo.addEventListener('timeupdate', () => {
+      if (Math.abs(leftVideo.currentTime - rightVideo.currentTime) > 0.1) {
+        rightVideo.currentTime = leftVideo.currentTime;
+      }
+    });
+  </script>
+</body>
+</html>
